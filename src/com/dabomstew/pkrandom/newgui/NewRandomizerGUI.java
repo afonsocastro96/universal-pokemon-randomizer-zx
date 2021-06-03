@@ -137,6 +137,7 @@ public class NewRandomizerGUI {
     private JCheckBox tpWeightTypesCheckBox;
     private JCheckBox tpDontUseLegendariesCheckBox;
     private JCheckBox tpNoEarlyWonderGuardCheckBox;
+    private JCheckBox tpDontUseShedinjaCheckBox;
     private JCheckBox tpRandomizeTrainerNamesCheckBox;
     private JCheckBox tpRandomizeTrainerClassNamesCheckBox;
     private JCheckBox tpForceFullyEvolvedAtCheckBox;
@@ -153,6 +154,7 @@ public class NewRandomizerGUI {
     private JRadioButton wpARTypeThemeAreasRadioButton;
     private JCheckBox wpUseTimeBasedEncountersCheckBox;
     private JCheckBox wpDontUseLegendariesCheckBox;
+    private JCheckBox wpDontUseShedinjaCheckBox;
     private JCheckBox wpSetMinimumCatchRateCheckBox;
     private JCheckBox wpRandomizeHeldItemsCheckBox;
     private JCheckBox wpBanBadItemsCheckBox;
@@ -1359,6 +1361,7 @@ public class NewRandomizerGUI {
         tpRandomEvenDistributionMainRadioButton.setSelected(settings.getTrainersMod() == Settings.TrainersMod.MAINPLAYTHROUGH);
         tpDontUseLegendariesCheckBox.setSelected(settings.isTrainersBlockLegendaries());
         tpNoEarlyWonderGuardCheckBox.setSelected(settings.isTrainersBlockEarlyWonderGuard());
+        tpDontUseShedinjaCheckBox.setSelected(settings.isTrainersBlockShedinja());
         tpForceFullyEvolvedAtCheckBox.setSelected(settings.isTrainersForceFullyEvolved());
         tpForceFullyEvolvedAtSlider.setValue(settings.getTrainersForceFullyEvolvedLevel());
         tpPercentageLevelModifierCheckBox.setSelected(settings.isTrainersLevelModified());
@@ -1409,6 +1412,7 @@ public class NewRandomizerGUI {
         wpSetMinimumCatchRateCheckBox.setSelected(settings.isUseMinimumCatchRate());
         wpSetMinimumCatchRateSlider.setValue(settings.getMinimumCatchRateLevel());
         wpDontUseLegendariesCheckBox.setSelected(settings.isBlockWildLegendaries());
+        wpDontUseShedinjaCheckBox.setSelected(settings.isBlockWildShedinja());
         wpARSimilarStrengthRadioButton
                 .setSelected(settings.getWildPokemonRestrictionMod() == Settings.WildPokemonRestrictionMod.SIMILAR_STRENGTH);
         wpRandomizeHeldItemsCheckBox.setSelected(settings.isRandomizeWildPokemonHeldItems());
@@ -1587,6 +1591,7 @@ public class NewRandomizerGUI {
         settings.setTrainersMatchTypingDistribution(tpWeightTypesCheckBox.isSelected());
         settings.setTrainersBlockLegendaries(tpDontUseLegendariesCheckBox.isSelected());
         settings.setTrainersBlockEarlyWonderGuard(tpNoEarlyWonderGuardCheckBox.isSelected());
+        settings.setTrainersBlockShedinja(tpDontUseShedinjaCheckBox.isSelected());
         settings.setTrainersForceFullyEvolved(tpForceFullyEvolvedAtCheckBox.isSelected());
         settings.setTrainersForceFullyEvolvedLevel(tpForceFullyEvolvedAtSlider.getValue());
         settings.setTrainersLevelModified(tpPercentageLevelModifierCheckBox.isSelected());
@@ -1621,6 +1626,7 @@ public class NewRandomizerGUI {
         settings.setUseMinimumCatchRate(wpSetMinimumCatchRateCheckBox.isSelected());
         settings.setMinimumCatchRateLevel(wpSetMinimumCatchRateSlider.getValue());
         settings.setBlockWildLegendaries(wpDontUseLegendariesCheckBox.isSelected());
+        settings.setBlockWildShedinja(wpDontUseShedinjaCheckBox.isSelected());
         settings.setRandomizeWildPokemonHeldItems(wpRandomizeHeldItemsCheckBox.isSelected() && wpRandomizeHeldItemsCheckBox.isVisible());
         settings.setBanBadRandomWildPokemonHeldItems(wpBanBadItemsCheckBox.isSelected() && wpBanBadItemsCheckBox.isVisible());
         settings.setBalanceShakingGrass(wpBalanceShakingGrassPokemonCheckBox.isSelected() && wpBalanceShakingGrassPokemonCheckBox.isVisible());
@@ -2097,6 +2103,9 @@ public class NewRandomizerGUI {
         tpNoEarlyWonderGuardCheckBox.setVisible(true);
         tpNoEarlyWonderGuardCheckBox.setEnabled(false);
         tpNoEarlyWonderGuardCheckBox.setSelected(false);
+        tpDontUseShedinjaCheckBox.setVisible(true);
+        tpDontUseShedinjaCheckBox.setEnabled(false);
+        tpDontUseShedinjaCheckBox.setSelected(false);
         tpRandomizeTrainerNamesCheckBox.setVisible(true);
         tpRandomizeTrainerNamesCheckBox.setEnabled(false);
         tpRandomizeTrainerNamesCheckBox.setSelected(false);
@@ -2236,6 +2245,9 @@ public class NewRandomizerGUI {
         wpDontUseLegendariesCheckBox.setVisible(true);
         wpDontUseLegendariesCheckBox.setEnabled(false);
         wpDontUseLegendariesCheckBox.setSelected(false);
+        wpDontUseShedinjaCheckBox.setVisible(true);
+        wpDontUseShedinjaCheckBox.setEnabled(false);
+        wpDontUseShedinjaCheckBox.setSelected(false);
         wpSetMinimumCatchRateCheckBox.setVisible(true);
         wpSetMinimumCatchRateCheckBox.setEnabled(false);
         wpSetMinimumCatchRateCheckBox.setSelected(false);
@@ -2641,6 +2653,7 @@ public class NewRandomizerGUI {
             tpRandomizeTrainerNamesCheckBox.setEnabled(true);
             tpRandomizeTrainerClassNamesCheckBox.setEnabled(true);
             tpNoEarlyWonderGuardCheckBox.setVisible(pokemonGeneration >= 3);
+            tpDontUseShedinjaCheckBox.setVisible(pokemonGeneration >= 3);
             tpRandomShinyTrainerPokemonCheckBox.setVisible(pokemonGeneration >= 7);
 
             totpPanel.setVisible(pokemonGeneration == 7);
@@ -2678,6 +2691,7 @@ public class NewRandomizerGUI {
             wpSetMinimumCatchRateCheckBox.setEnabled(true);
             wpRandomizeHeldItemsCheckBox.setEnabled(true);
             wpRandomizeHeldItemsCheckBox.setVisible(pokemonGeneration != 1);
+            wpDontUseShedinjaCheckBox.setVisible(pokemonGeneration >= 3);
             wpBanBadItemsCheckBox.setVisible(pokemonGeneration != 1);
             wpBalanceShakingGrassPokemonCheckBox.setVisible(pokemonGeneration == 5);
             wpPercentageLevelModifierCheckBox.setEnabled(true);
@@ -2998,6 +3012,8 @@ public class NewRandomizerGUI {
             tpDontUseLegendariesCheckBox.setSelected(false);
             tpNoEarlyWonderGuardCheckBox.setEnabled(false);
             tpNoEarlyWonderGuardCheckBox.setSelected(false);
+            tpDontUseShedinjaCheckBox.setEnabled(false);
+            tpDontUseShedinjaCheckBox.setSelected(false);
             tpAllowAlternateFormesCheckBox.setEnabled(false);
             tpAllowAlternateFormesCheckBox.setSelected(false);
             tpSwapMegaEvosCheckBox.setEnabled(false);
@@ -3026,6 +3042,7 @@ public class NewRandomizerGUI {
             tpSimilarStrengthCheckBox.setEnabled(true);
             tpDontUseLegendariesCheckBox.setEnabled(true);
             tpNoEarlyWonderGuardCheckBox.setEnabled(true);
+            tpDontUseShedinjaCheckBox.setEnabled(true);
             tpAllowAlternateFormesCheckBox.setEnabled(true);
             if (currentRestrictions == null || currentRestrictions.megaEvolutionsAreInPool(romHandler.forceSwapStaticMegaEvos())) {
                 tpSwapMegaEvosCheckBox.setEnabled(true);
@@ -3151,11 +3168,14 @@ public class NewRandomizerGUI {
             wpUseTimeBasedEncountersCheckBox.setSelected(false);
             wpDontUseLegendariesCheckBox.setEnabled(false);
             wpDontUseLegendariesCheckBox.setSelected(false);
+            wpDontUseShedinjaCheckBox.setEnabled(false);
+            wpDontUseShedinjaCheckBox.setSelected(false);
             wpAllowAltFormesCheckBox.setEnabled(false);
             wpAllowAltFormesCheckBox.setSelected(false);
         } else {
             wpUseTimeBasedEncountersCheckBox.setEnabled(true);
             wpDontUseLegendariesCheckBox.setEnabled(true);
+            wpDontUseShedinjaCheckBox.setEnabled(true);
             wpAllowAltFormesCheckBox.setEnabled(true);
         }
 

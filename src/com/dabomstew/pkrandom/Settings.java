@@ -163,6 +163,7 @@ public class Settings {
     private boolean trainersMatchTypingDistribution;
     private boolean trainersBlockLegendaries = true;
     private boolean trainersBlockEarlyWonderGuard = true;
+    private boolean trainersBlockShedinja;
     private boolean trainersEnforceDistribution;
     private boolean trainersEnforceMainPlaythrough;
     private boolean randomizeTrainerNames;
@@ -197,6 +198,7 @@ public class Settings {
     private WildPokemonRestrictionMod wildPokemonRestrictionMod = WildPokemonRestrictionMod.NONE;
     private boolean useTimeBasedEncounters;
     private boolean blockWildLegendaries = true;
+    private boolean blockWildShedinja;
     private boolean useMinimumCatchRate;
     private int minimumCatchRateLevel = 1;
     private boolean randomizeWildPokemonHeldItems;
@@ -462,9 +464,9 @@ public class Settings {
 
         // new 170
         // 25 move randomizers
-        // + static music
+        // + static music + block wild Shedinja
         out.write(makeByteSelected(randomizeMovePowers, randomizeMoveAccuracies, randomizeMovePPs, randomizeMoveTypes,
-                randomizeMoveCategory, correctStaticMusic));
+                randomizeMoveCategory, correctStaticMusic, blockWildShedinja));
 
         // 26 evolutions
         out.write(makeByteSelected(evolutionsMod == EvolutionsMod.UNCHANGED, evolutionsMod == EvolutionsMod.RANDOM,
@@ -477,7 +479,8 @@ public class Settings {
                 trainersBlockLegendaries,
                 trainersBlockEarlyWonderGuard,
                 swapTrainerMegaEvos,
-                shinyChance));
+                shinyChance,
+                trainersBlockShedinja));
 
         // @ 28 pokemon restrictions
         try {
@@ -746,6 +749,7 @@ public class Settings {
         settings.setRandomizeMoveTypes(restoreState(data[25], 3));
         settings.setRandomizeMoveCategory(restoreState(data[25], 4));
         settings.setCorrectStaticMusic(restoreState(data[25], 5));
+        settings.setBlockWildShedinja(restoreState(data[25], 6));
 
         settings.setEvolutionsMod(restoreEnum(EvolutionsMod.class, data[26], 0, // UNCHANGED
                 1 // RANDOM
@@ -764,6 +768,7 @@ public class Settings {
         settings.setTrainersBlockEarlyWonderGuard(restoreState(data[27], 4));
         settings.setSwapTrainerMegaEvos(restoreState(data[27], 5));
         settings.setShinyChance(restoreState(data[27], 6));
+        settings.setTrainersBlockShedinja(restoreState(data[27], 7));
 
         // gen restrictions
         int genLimit = FileFunctions.readFullInt(data, 28);
@@ -933,6 +938,10 @@ public class Settings {
             this.setTrainersBlockEarlyWonderGuard(false);
         }
 
+        if (rh instanceof Gen1RomHandler || rh instanceof Gen2RomHandler) {
+            this.setTrainersBlockShedinja(false);
+        }
+
         if (!rh.hasTimeBasedEncounters()) {
             this.setUseTimeBasedEncounters(false);
         }
@@ -940,6 +949,10 @@ public class Settings {
         if (rh instanceof Gen1RomHandler) {
             this.setRandomizeWildPokemonHeldItems(false);
             this.setBanBadRandomWildPokemonHeldItems(false);
+        }
+
+        if (rh instanceof Gen1RomHandler || rh instanceof Gen2RomHandler) {
+            this.setBlockWildShedinja(false);
         }
 
         if (!rh.canChangeStaticPokemon()) {
@@ -1525,6 +1538,12 @@ public class Settings {
         this.trainersBlockEarlyWonderGuard = trainersBlockEarlyWonderGuard;
     }
 
+    public boolean isTrainersBlockShedinja() { return trainersBlockShedinja;};
+
+    public void setTrainersBlockShedinja(boolean trainersBlockShedinja) {
+        this.trainersBlockShedinja = trainersBlockShedinja;
+    }
+
     public boolean isRandomizeTrainerNames() {
         return randomizeTrainerNames;
     }
@@ -1715,6 +1734,14 @@ public class Settings {
 
     public void setBlockWildLegendaries(boolean blockWildLegendaries) {
         this.blockWildLegendaries = blockWildLegendaries;
+    }
+
+    public boolean isBlockWildShedinja() {
+        return blockWildShedinja;
+    }
+
+    public void setBlockWildShedinja(boolean blockWildShedinja) {
+        this.blockWildShedinja = blockWildShedinja;
     }
 
     public boolean isUseMinimumCatchRate() {

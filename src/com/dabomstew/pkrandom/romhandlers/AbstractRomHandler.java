@@ -708,6 +708,7 @@ public abstract class AbstractRomHandler implements RomHandler {
         boolean typeThemed = settings.getWildPokemonRestrictionMod() == Settings.WildPokemonRestrictionMod.TYPE_THEME_AREAS;
         boolean usePowerLevels = settings.getWildPokemonRestrictionMod() == Settings.WildPokemonRestrictionMod.SIMILAR_STRENGTH;
         boolean noLegendaries = settings.isBlockWildLegendaries();
+        boolean noShedinja = settings.isBlockWildShedinja();
         boolean balanceShakingGrass = settings.isBalanceShakingGrass();
         int levelModifier = settings.isWildLevelsModified() ? settings.getWildLevelModifier() : 0;
         boolean allowAltFormes = settings.isAllowWildAltFormes();
@@ -737,6 +738,8 @@ public abstract class AbstractRomHandler implements RomHandler {
             List<Pokemon> abilityDependentFormes = getAbilityDependentFormes();
             banned.addAll(abilityDependentFormes);
         }
+        if(noShedinja)
+            banned.add(this.getPokemon().get(Species.shedinja));
         // Assume EITHER catch em all OR type themed OR match strength for now
         if (catchEmAll) {
 
@@ -1561,6 +1564,7 @@ public abstract class AbstractRomHandler implements RomHandler {
         boolean usePowerLevels = settings.isTrainersUsePokemonOfSimilarStrength();
         boolean noLegendaries = settings.isTrainersBlockLegendaries();
         boolean noEarlyWonderGuard = settings.isTrainersBlockEarlyWonderGuard();
+        boolean banShedinja = settings.isTrainersBlockShedinja();
         int levelModifier = settings.isTrainersLevelModified() ? settings.getTrainersLevelModifier() : 0;
         boolean distributionSetting =
                 settings.getTrainersMod() == Settings.TrainersMod.DISTRIBUTED ||
@@ -1598,6 +1602,8 @@ public abstract class AbstractRomHandler implements RomHandler {
             List<Pokemon> abilityDependentFormes = getAbilityDependentFormes();
             banned.addAll(abilityDependentFormes);
         }
+        if(banShedinja)
+            banned.add(this.getPokemon().get(Species.shedinja));
         cachedAllList.removeAll(banned);
 
         // Fully random is easy enough - randomize then worry about rival
